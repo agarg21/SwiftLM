@@ -238,22 +238,17 @@ jobs:
       - name: Install Metal Toolchain
         run: xcodebuild -downloadComponent MetalToolchain || true
 
-      - name: Cache Swift packages
-        uses: actions/cache@v4
+      # Reuse the release binary build_and_unit_test already built (as the
+      # integration_matrix and ssd-draft-memory-guard jobs do) instead of a second
+      # `swift build -c release` per job. Only the custom metallib is built here.
+      - name: Download Binary Artifact
+        uses: actions/download-artifact@v4
         with:
-          path: .build
-          key: ${{ runner.os }}-spm-SwiftLM-v3-${{ hashFiles('Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-spm-SwiftLM-v3-
+          name: swiftlm-architecture
+          path: .build/release/
 
-      - name: Clear stale module cache
-        run: find .build -type d -name ModuleCache -exec rm -rf {} + 2>/dev/null || true
-
-      - name: Resolve dependencies
-        run: swift package resolve
-
-      - name: Build (Release)
-        run: swift build -c release
+      - name: Restore Architecture Privileges
+        run: chmod +x .build/release/SwiftLM
 
       - name: Compile and install custom MLX Metal library
         run: |
@@ -341,22 +336,17 @@ jobs:
       - name: Install Metal Toolchain
         run: xcodebuild -downloadComponent MetalToolchain || true
 
-      - name: Cache Swift packages
-        uses: actions/cache@v4
+      # Reuse the release binary build_and_unit_test already built (as the
+      # integration_matrix and ssd-draft-memory-guard jobs do) instead of a second
+      # `swift build -c release` per job. Only the custom metallib is built here.
+      - name: Download Binary Artifact
+        uses: actions/download-artifact@v4
         with:
-          path: .build
-          key: ${{ runner.os }}-spm-SwiftLM-v3-${{ hashFiles('Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-spm-SwiftLM-v3-
+          name: swiftlm-architecture
+          path: .build/release/
 
-      - name: Clear stale module cache
-        run: find .build -type d -name ModuleCache -exec rm -rf {} + 2>/dev/null || true
-
-      - name: Resolve dependencies
-        run: swift package resolve
-
-      - name: Build (Release)
-        run: swift build -c release
+      - name: Restore Architecture Privileges
+        run: chmod +x .build/release/SwiftLM
 
       - name: Compile and install custom MLX Metal library
         run: |
@@ -443,22 +433,17 @@ jobs:
       - name: Install Metal Toolchain
         run: xcodebuild -downloadComponent MetalToolchain || true
 
-      - name: Cache Swift packages
-        uses: actions/cache@v4
+      # Reuse the release binary build_and_unit_test already built (as the
+      # integration_matrix and ssd-draft-memory-guard jobs do) instead of a second
+      # `swift build -c release` per job. Only the custom metallib is built here.
+      - name: Download Binary Artifact
+        uses: actions/download-artifact@v4
         with:
-          path: .build
-          key: ${{ runner.os }}-spm-SwiftLM-v3-${{ hashFiles('Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-spm-SwiftLM-v3-
+          name: swiftlm-architecture
+          path: .build/release/
 
-      - name: Clear stale module cache
-        run: find .build -type d -name ModuleCache -exec rm -rf {} + 2>/dev/null || true
-
-      - name: Resolve dependencies
-        run: swift package resolve
-
-      - name: Build (Release)
-        run: swift build -c release
+      - name: Restore Architecture Privileges
+        run: chmod +x .build/release/SwiftLM
       
       - name: Compile and install custom MLX Metal library
         run: |
